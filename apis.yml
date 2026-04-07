@@ -1,7 +1,12 @@
 aid: atandt
-url: https://raw.githubusercontent.com/api-evangelist/atandt/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/atandt/refs/heads/main/apis.yml
 modified: '2026-03-23'
 apis: []
 common:
   - type: Website
     url: https://www.atandt.com
+description: >-
+  AT&T is a multinational telecommunications holding company providing wireless and
+  wireline telecommunications services, broadband, and digital entertainment to consumers
+  and businesses worldwide.
