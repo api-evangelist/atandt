@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://api.att.com/vocab/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "grant_type": "https://api.att.com/vocab/grant_type",
+    "client_id": "https://api.att.com/vocab/client_id",
+    "client_secret": "https://api.att.com/vocab/client_secret",
+    "scope": "https://api.att.com/vocab/scope",
+    "code": "https://api.att.com/vocab/code",
+    "refresh_token": "https://api.att.com/vocab/refresh_token",
+    "access_token": "https://api.att.com/vocab/access_token",
+    "token_type": "https://api.att.com/vocab/token_type",
+    "expires_in": {
+      "@id": "https://api.att.com/vocab/expires_in",
+      "@type": "xsd:integer"
+    },
+    "outboundSMSRequest": "https://api.att.com/vocab/outboundSMSRequest",
+    "outboundSMSResponse": "https://api.att.com/vocab/outboundSMSResponse",
+    "address": "https://api.att.com/vocab/address",
+    "deliveryStatus": "https://api.att.com/vocab/deliveryStatus",
+    "messageId": "https://api.att.com/vocab/messageId",
+    "message": "https://api.att.com/vocab/message",
+    "senderAddress": "https://api.att.com/vocab/senderAddress",
+    "destinationAddress": "https://api.att.com/vocab/destinationAddress",
+    "dateTime": {
+      "@id": "https://api.att.com/vocab/dateTime",
+      "@type": "xsd:dateTime"
+    }
+  }
+}

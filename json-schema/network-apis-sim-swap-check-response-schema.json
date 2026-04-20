@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/network/sim-swap-check-response",
+  "title": "SIM Swap Check Response",
+  "description": "Result of SIM swap check",
+  "type": "object",
+  "properties": {
+    "swapped": {
+      "type": "boolean"
+    }
+  }
+}

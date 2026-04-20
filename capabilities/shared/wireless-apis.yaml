@@ -1,0 +1,89 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "AT&T Wireless APIs"
+  description: "Shared per-API capability definition for AT&T Wireless APIs covering SMS messaging and OAuth authentication."
+  tags:
+    - AT&T
+    - Wireless
+    - SMS
+    - OAuth
+
+binds:
+  - namespace: env
+    keys:
+      ATT_ACCESS_TOKEN: ATT_ACCESS_TOKEN
+
+operations:
+  - name: get-access-token
+    description: "Obtain an OAuth 2.0 access token for AT&T API authentication"
+    method: POST
+    path: /oauth/v4/token
+    server: https://api.att.com
+    security: []
+    inputParameters:
+      - name: grant_type
+        type: string
+        required: true
+      - name: client_id
+        type: string
+        required: true
+      - name: client_secret
+        type: string
+        required: true
+      - name: scope
+        type: string
+        required: true
+    outputParameters:
+      - name: access_token
+        type: string
+      - name: token_type
+        type: string
+      - name: expires_in
+        type: integer
+
+  - name: send-sms
+    description: "Send an SMS message to one or more recipients via AT&T network"
+    method: POST
+    path: /sms/v3/messaging/outbox
+    server: https://api.att.com
+    inputParameters:
+      - name: address
+        type: array
+        required: true
+      - name: message
+        type: string
+        required: true
+    outputParameters:
+      - name: messageId
+        type: string
+      - name: resourceURL
+        type: string
+
+  - name: get-sms-delivery-status
+    description: "Check delivery status of a sent SMS message"
+    method: GET
+    path: /sms/v3/messaging/outbox/{messageId}
+    server: https://api.att.com
+    inputParameters:
+      - name: messageId
+        type: string
+        required: true
+        in: path
+    outputParameters:
+      - name: deliveryStatus
+        type: string
+
+  - name: get-inbound-sms
+    description: "Retrieve inbound SMS messages for a registered endpoint"
+    method: GET
+    path: /sms/v3/messaging/inbox/{registrationId}
+    server: https://api.att.com
+    inputParameters:
+      - name: registrationId
+        type: string
+        required: true
+        in: path
+    outputParameters:
+      - name: messages
+        type: array

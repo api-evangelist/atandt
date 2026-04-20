@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/network/sim-swap-check-request",
+  "title": "SIM Swap Check Request",
+  "description": "Request to check if a SIM swap has occurred",
+  "type": "object",
+  "required": [
+    "phoneNumber"
+  ],
+  "properties": {
+    "phoneNumber": {
+      "type": "string",
+      "pattern": "^\\+[1-9]\\d{1,14}$"
+    },
+    "maxAge": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2400
+    }
+  }
+}

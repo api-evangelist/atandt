@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/wireless/send-sms-request",
+  "title": "Send SMS Request",
+  "description": "Request to send an SMS via AT&T Wireless APIs",
+  "type": "object",
+  "required": [
+    "outboundSMSRequest"
+  ],
+  "properties": {
+    "outboundSMSRequest": {
+      "type": "object",
+      "required": [
+        "address",
+        "message"
+      ],
+      "properties": {
+        "address": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "senderAddress": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,369 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "AT&T"
+  description: "Unified taxonomy of AT&T APIs spanning wireless messaging, 5G CAMARA network APIs, and enterprise connectivity services."
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - namespace: att-wireless-apis
+      name: AT&T Wireless APIs
+      version: "1.0"
+      baseUrl: https://api.att.com
+      status: active
+    - namespace: att-network-apis
+      name: AT&T 5G Network APIs
+      version: "1.0"
+      baseUrl: https://api.att.com/camara
+      status: active
+    - namespace: att-enterprise-connectivity
+      name: AT&T Enterprise Connectivity APIs
+      version: "1.0"
+      baseUrl: https://devex-web.att.com/alliance
+      status: active
+    - namespace: att-mvno-apis
+      name: AT&T MVNO APIs
+      version: "1.0"
+      baseUrl: https://devex-web.att.com/mvnx
+      status: active
+    - namespace: att-cloud-voice
+      name: AT&T Cloud Voice APIs
+      version: "1.0"
+      baseUrl: https://devex-web.att.com
+      status: active
+    - namespace: att-ebonding
+      name: AT&T eBonding APIs
+      version: "1.0"
+      baseUrl: https://devex-web.att.com/ebonding-common
+      status: active
+
+  resources:
+    - name: sms-messages
+      apis:
+        - att-wireless-apis
+      actions:
+        - send
+        - get-delivery-status
+        - get-inbound
+    - name: oauth-tokens
+      apis:
+        - att-wireless-apis
+      actions:
+        - create
+    - name: sim-swap
+      apis:
+        - att-network-apis
+      actions:
+        - check
+        - retrieve-date
+    - name: device-connectivity
+      apis:
+        - att-network-apis
+      actions:
+        - get
+    - name: device-roaming
+      apis:
+        - att-network-apis
+      actions:
+        - get
+    - name: number-verification
+      apis:
+        - att-network-apis
+      actions:
+        - verify
+    - name: qod-sessions
+      apis:
+        - att-network-apis
+      actions:
+        - create
+        - list
+        - get
+        - delete
+    - name: network-metrics
+      apis:
+        - att-network-apis
+      actions:
+        - get
+    - name: threat-assessment
+      apis:
+        - att-network-apis
+      actions:
+        - get
+    - name: service-qualification
+      apis:
+        - att-enterprise-connectivity
+      actions:
+        - check
+    - name: product-orders
+      apis:
+        - att-enterprise-connectivity
+      actions:
+        - create
+        - list
+        - get
+
+  actions:
+    - name: send
+      methods:
+        - POST
+      pattern: write
+    - name: check
+      methods:
+        - POST
+      pattern: query
+    - name: verify
+      methods:
+        - POST
+      pattern: query
+    - name: get
+      methods:
+        - GET
+        - POST
+      pattern: read
+    - name: create
+      methods:
+        - POST
+      pattern: write
+    - name: list
+      methods:
+        - GET
+      pattern: read
+    - name: delete
+      methods:
+        - DELETE
+      pattern: destructive
+    - name: retrieve-date
+      methods:
+        - POST
+      pattern: query
+    - name: get-delivery-status
+      methods:
+        - GET
+      pattern: read
+    - name: get-inbound
+      methods:
+        - GET
+      pattern: read
+
+  schemas:
+    messaging:
+      - name: SendSmsRequest
+        description: Request to send an SMS message
+        properties:
+          - address
+          - message
+      - name: SendSmsResponse
+        description: Response after sending SMS
+        properties:
+          - messageId
+          - resourceURL
+      - name: DeliveryInfo
+        description: SMS delivery status information
+        properties:
+          - address
+          - deliveryStatus
+      - name: InboundSmsMessage
+        description: Inbound SMS message data
+        properties:
+          - messageId
+          - message
+          - senderAddress
+          - dateTime
+    security:
+      - name: SimSwapCheckRequest
+        description: SIM swap detection request
+        properties:
+          - phoneNumber
+          - maxAge
+      - name: SimSwapCheckResponse
+        description: SIM swap detection result
+        properties:
+          - swapped
+      - name: NumberVerificationRequest
+        description: Phone number verification request
+        properties:
+          - phoneNumber
+      - name: NumberVerificationResponse
+        description: Number verification result
+        properties:
+          - devicePhoneNumberVerified
+      - name: ThreatAssessment
+        description: Device threat assessment
+        properties:
+          - riskLevel
+          - anomalyScore
+          - threats
+    connectivity:
+      - name: DeviceConnectivityStatus
+        description: Device network connectivity state
+        properties:
+          - connectivityStatus
+          - networkGeneration
+          - roaming
+      - name: DeviceRoamingStatus
+        description: Device roaming information
+        properties:
+          - roaming
+          - countryCode
+          - countryName
+      - name: NetworkMetrics
+        description: Network performance metrics
+        properties:
+          - networkGeneration
+          - signalStrength
+          - estimatedDownlinkThroughput
+          - estimatedLatency
+          - congestionLevel
+    qos:
+      - name: CreateSessionRequest
+        description: QoD session creation request
+        properties:
+          - phoneNumber
+          - qosProfile
+          - duration
+      - name: SessionInfo
+        description: QoD session details
+        properties:
+          - sessionId
+          - qosProfile
+          - qosStatus
+          - expiresAt
+    enterprise:
+      - name: ServiceQualificationRequest
+        description: Service availability check request
+        properties:
+          - address
+      - name: ProductOrder
+        description: Enterprise service order
+        properties:
+          - id
+          - externalId
+          - state
+          - orderDate
+
+  authentication:
+    schemes:
+      - name: OAuth 2.0 Client Credentials
+        type: oauth2
+        flows:
+          - client_credentials
+        apis:
+          - att-wireless-apis
+          - att-network-apis
+          - att-enterprise-connectivity
+
+capability:
+  workflows:
+    - name: Wireless Messaging
+      file: capabilities/wireless-messaging.yaml
+      description: "SMS messaging and OAuth authentication for consumer and business applications"
+      apisComposed:
+        - att-wireless-apis
+      toolCount: 3
+      personas:
+        - App Developer
+        - Enterprise Developer
+      domains:
+        - Messaging
+        - Authentication
+    - name: Network Security
+      file: capabilities/network-security.yaml
+      description: "CAMARA network-based fraud prevention using SIM Swap and Number Verification"
+      apisComposed:
+        - att-network-apis
+      toolCount: 3
+      personas:
+        - Security Developer
+        - Identity Developer
+      domains:
+        - Security
+        - Authentication
+
+  personas:
+    - id: app-developer
+      name: App Developer
+      description: "Mobile or web developer building consumer applications on AT&T APIs"
+      workflows:
+        - Wireless Messaging
+    - id: enterprise-developer
+      name: Enterprise Developer
+      description: "Developer integrating AT&T enterprise connectivity and eBonding APIs"
+      workflows:
+        - Wireless Messaging
+    - id: security-developer
+      name: Security Developer
+      description: "Developer building fraud prevention and identity verification using AT&T network signals"
+      workflows:
+        - Network Security
+    - id: identity-developer
+      name: Identity Developer
+      description: "Developer implementing frictionless mobile authentication via AT&T network"
+      workflows:
+        - Network Security
+    - id: mvno-operator
+      name: MVNO Operator
+      description: "Mobile virtual network operator managing subscribers on AT&T infrastructure"
+      workflows: []
+    - id: telecom-engineer
+      name: Telecom Engineer
+      description: "Engineer integrating enterprise wireline services and eBonding systems"
+      workflows: []
+
+  domains:
+    - name: Messaging
+      description: SMS and in-app messaging services
+      resources:
+        - sms-messages
+    - name: Security
+      description: Network-based fraud detection and threat intelligence
+      resources:
+        - sim-swap
+        - number-verification
+        - threat-assessment
+    - name: Authentication
+      description: OAuth and network-based authentication
+      resources:
+        - oauth-tokens
+        - number-verification
+    - name: Connectivity
+      description: Device status, roaming, and QoS management
+      resources:
+        - device-connectivity
+        - device-roaming
+        - qod-sessions
+        - network-metrics
+    - name: Enterprise
+      description: Wireline service ordering and qualification
+      resources:
+        - service-qualification
+        - product-orders
+
+crossReference:
+  - resource: sms-messages
+    operations:
+      - sendSms
+      - getSmsDeliveryStatus
+      - getInboundSms
+    workflows:
+      - Wireless Messaging
+    personas:
+      - App Developer
+      - Enterprise Developer
+  - resource: sim-swap
+    operations:
+      - checkSimSwap
+      - retrieveSimSwapDate
+    workflows:
+      - Network Security
+    personas:
+      - Security Developer
+  - resource: number-verification
+    operations:
+      - verifyPhoneNumber
+    workflows:
+      - Network Security
+    personas:
+      - Security Developer
+      - Identity Developer

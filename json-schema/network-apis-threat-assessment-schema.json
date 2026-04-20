@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/network/threat-assessment",
+  "title": "Threat Assessment",
+  "description": "ML-based device threat assessment from AT&T network",
+  "type": "object",
+  "properties": {
+    "riskLevel": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "anomalyScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "UNUSUAL_LOCATION",
+          "ABNORMAL_DATA_USAGE",
+          "KNOWN_MALWARE_TRAFFIC",
+          "SIM_CLONING",
+          "ROAMING_ANOMALY",
+          "CALL_PATTERN_ANOMALY"
+        ]
+      }
+    }
+  }
+}

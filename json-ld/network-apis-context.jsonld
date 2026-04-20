@@ -1,0 +1,55 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://api.att.com/vocab/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "phoneNumber": "https://api.att.com/vocab/phoneNumber",
+    "maxAge": {
+      "@id": "https://api.att.com/vocab/maxAge",
+      "@type": "xsd:integer"
+    },
+    "swapped": {
+      "@id": "https://api.att.com/vocab/swapped",
+      "@type": "xsd:boolean"
+    },
+    "connectivityStatus": "https://api.att.com/vocab/connectivityStatus",
+    "networkGeneration": "https://api.att.com/vocab/networkGeneration",
+    "roaming": {
+      "@id": "https://api.att.com/vocab/roaming",
+      "@type": "xsd:boolean"
+    },
+    "countryCode": "https://api.att.com/vocab/countryCode",
+    "countryName": "https://api.att.com/vocab/countryName",
+    "devicePhoneNumberVerified": {
+      "@id": "https://api.att.com/vocab/devicePhoneNumberVerified",
+      "@type": "xsd:boolean"
+    },
+    "qosProfile": "https://api.att.com/vocab/qosProfile",
+    "duration": {
+      "@id": "https://api.att.com/vocab/duration",
+      "@type": "xsd:integer"
+    },
+    "sessionId": "https://api.att.com/vocab/sessionId",
+    "qosStatus": "https://api.att.com/vocab/qosStatus",
+    "expiresAt": {
+      "@id": "https://api.att.com/vocab/expiresAt",
+      "@type": "xsd:dateTime"
+    },
+    "signalStrength": "https://api.att.com/vocab/signalStrength",
+    "estimatedDownlinkThroughput": {
+      "@id": "https://api.att.com/vocab/estimatedDownlinkThroughput",
+      "@type": "xsd:decimal"
+    },
+    "estimatedLatency": {
+      "@id": "https://api.att.com/vocab/estimatedLatency",
+      "@type": "xsd:integer"
+    },
+    "congestionLevel": "https://api.att.com/vocab/congestionLevel",
+    "riskLevel": "https://api.att.com/vocab/riskLevel",
+    "anomalyScore": {
+      "@id": "https://api.att.com/vocab/anomalyScore",
+      "@type": "xsd:decimal"
+    },
+    "threats": "https://api.att.com/vocab/threats"
+  }
+}

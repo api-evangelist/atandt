@@ -1,0 +1,179 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "AT&T 5G Network APIs"
+  description: "Shared per-API capability definition for AT&T CAMARA-standard 5G network APIs covering SIM Swap, Device Status, Number Verification, QoD, Network Insights, and Threat Detection."
+  tags:
+    - AT&T
+    - 5G
+    - CAMARA
+    - Network
+
+binds:
+  - namespace: env
+    keys:
+      ATT_NETWORK_API_TOKEN: ATT_NETWORK_API_TOKEN
+
+operations:
+  - name: check-sim-swap
+    description: "Check if a SIM swap has occurred for a phone number within a time period"
+    method: POST
+    path: /sim-swap/v1/check
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+      - name: maxAge
+        type: integer
+        required: false
+    outputParameters:
+      - name: swapped
+        type: boolean
+
+  - name: retrieve-sim-swap-date
+    description: "Retrieve the most recent SIM swap date for a phone number"
+    method: POST
+    path: /sim-swap/v1/retrieve-date
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+    outputParameters:
+      - name: latestSimChange
+        type: string
+
+  - name: get-device-connectivity
+    description: "Get device connectivity status on AT&T network"
+    method: POST
+    path: /device-status/v1/connectivity
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+    outputParameters:
+      - name: connectivityStatus
+        type: string
+      - name: networkGeneration
+        type: string
+
+  - name: get-device-roaming
+    description: "Check if device is roaming on a partner network"
+    method: POST
+    path: /device-status/v1/roaming
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+    outputParameters:
+      - name: roaming
+        type: boolean
+      - name: countryCode
+        type: string
+
+  - name: verify-number
+    description: "Silently verify device phone number via AT&T network signal"
+    method: POST
+    path: /number-verification/v1/verify
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+    outputParameters:
+      - name: devicePhoneNumberVerified
+        type: boolean
+
+  - name: create-qod-session
+    description: "Create a Quality on Demand session for enhanced 5G QoS"
+    method: POST
+    path: /qod/v1/sessions
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+      - name: qosProfile
+        type: string
+        required: true
+      - name: duration
+        type: integer
+        required: true
+    outputParameters:
+      - name: sessionId
+        type: string
+      - name: qosStatus
+        type: string
+
+  - name: list-qod-sessions
+    description: "List all active Quality on Demand sessions"
+    method: GET
+    path: /qod/v1/sessions
+    server: https://api.att.com/camara
+    outputParameters:
+      - name: sessions
+        type: array
+
+  - name: get-qod-session
+    description: "Get status of a specific Quality on Demand session"
+    method: GET
+    path: /qod/v1/sessions/{sessionId}
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: sessionId
+        type: string
+        required: true
+        in: path
+    outputParameters:
+      - name: sessionId
+        type: string
+      - name: qosStatus
+        type: string
+
+  - name: delete-qod-session
+    description: "Terminate an active Quality on Demand session"
+    method: DELETE
+    path: /qod/v1/sessions/{sessionId}
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: sessionId
+        type: string
+        required: true
+        in: path
+
+  - name: get-network-metrics
+    description: "Get network performance metrics for a device"
+    method: POST
+    path: /network/insights/v1/metrics
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+    outputParameters:
+      - name: networkGeneration
+        type: string
+      - name: signalStrength
+        type: string
+      - name: estimatedDownlinkThroughput
+        type: number
+
+  - name: get-threat-assessment
+    description: "Get ML-based threat assessment for a device"
+    method: POST
+    path: /network/threat-detection/v1/threats
+    server: https://api.att.com/camara
+    inputParameters:
+      - name: phoneNumber
+        type: string
+        required: true
+    outputParameters:
+      - name: riskLevel
+        type: string
+      - name: anomalyScore
+        type: number
+      - name: threats
+        type: array

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/wireless/token-request",
+  "title": "Token Request",
+  "description": "OAuth 2.0 token request for AT&T Wireless APIs",
+  "type": "object",
+  "properties": {
+    "grant_type": {
+      "type": "string",
+      "enum": [
+        "client_credentials",
+        "authorization_code",
+        "refresh_token"
+      ]
+    },
+    "client_id": {
+      "type": "string"
+    },
+    "client_secret": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "refresh_token": {
+      "type": "string"
+    }
+  }
+}

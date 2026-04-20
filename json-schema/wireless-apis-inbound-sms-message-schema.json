@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/wireless/inbound-sms-message",
+  "title": "Inbound SMS Message",
+  "description": "Inbound SMS message received via AT&T",
+  "type": "object",
+  "properties": {
+    "messageId": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "senderAddress": {
+      "type": "string"
+    },
+    "destinationAddress": {
+      "type": "string"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

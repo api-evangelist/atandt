@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/wireless/send-sms-response",
+  "title": "Send SMS Response",
+  "description": "Response after sending SMS via AT&T Wireless APIs",
+  "type": "object",
+  "properties": {
+    "outboundSMSResponse": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string"
+        },
+        "resourceReference": {
+          "type": "object",
+          "properties": {
+            "resourceURL": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    }
+  }
+}

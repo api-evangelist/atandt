@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/network/threat-assessment",
+  "title": "Threat Assessment",
+  "description": "ML-based device threat assessment from AT&T network",
+  "type": "object",
+  "properties": {
+    "riskLevel": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "anomalyScore": {
+      "type": "number"
+    },
+    "threats": {
+      "type": "array"
+    }
+  }
+}

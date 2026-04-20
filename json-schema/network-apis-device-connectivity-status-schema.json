@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/network/device-connectivity-status",
+  "title": "Device Connectivity Status",
+  "description": "Current connectivity status of a device on AT&T network",
+  "type": "object",
+  "properties": {
+    "connectivityStatus": {
+      "type": "string",
+      "enum": [
+        "CONNECTED_DATA",
+        "CONNECTED_SMS",
+        "NOT_CONNECTED"
+      ]
+    },
+    "networkGeneration": {
+      "type": "string",
+      "enum": [
+        "5G",
+        "5G_NSA",
+        "4G",
+        "3G"
+      ]
+    },
+    "roaming": {
+      "type": "boolean"
+    }
+  }
+}

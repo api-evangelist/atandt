@@ -1,0 +1,282 @@
+rules:
+  # Info / Metadata Rules
+  atandt-info-title-required:
+    description: AT&T APIs must have a title in the info object
+    message: info.title is required for AT&T APIs
+    severity: error
+    given: $.info
+    then:
+      field: title
+      function: truthy
+
+  atandt-info-description-required:
+    description: AT&T APIs must include a description
+    message: info.description is required for AT&T APIs
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: truthy
+
+  atandt-info-version-required:
+    description: AT&T APIs must specify a version
+    message: info.version is required for AT&T APIs
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  atandt-info-contact-required:
+    description: AT&T APIs must include contact information
+    message: info.contact is required for AT&T APIs
+    severity: warn
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  atandt-info-terms-required:
+    description: AT&T APIs must include terms of service
+    message: info.termsOfService is required for AT&T APIs
+    severity: warn
+    given: $.info
+    then:
+      field: termsOfService
+      function: truthy
+
+  # OpenAPI Version
+  atandt-openapi-version:
+    description: AT&T APIs must use OpenAPI 3.0.x
+    message: openapi must be 3.0.x
+    severity: error
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: '^3\.0\.\d+$'
+
+  # Servers
+  atandt-servers-required:
+    description: AT&T APIs must define at least one server
+    message: servers array is required
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  atandt-server-url-https:
+    description: AT&T API servers must use HTTPS
+    message: Server URL must use HTTPS
+    severity: error
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  atandt-server-att-domain:
+    description: AT&T API servers should use att.com domains
+    message: Server URL should use att.com domain
+    severity: warn
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: '\.att\.com'
+
+  # Operations
+  atandt-operation-id-required:
+    description: All AT&T API operations must have an operationId
+    message: operationId is required for all operations
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete,options,head]
+    then:
+      field: operationId
+      function: truthy
+
+  atandt-operation-summary-required:
+    description: All AT&T API operations must have a summary
+    message: summary is required for all operations
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete,options,head]
+    then:
+      field: summary
+      function: truthy
+
+  atandt-operation-description-required:
+    description: All AT&T API operations must have a description
+    message: description is required for all operations
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,options,head]
+    then:
+      field: description
+      function: truthy
+
+  atandt-operation-tags-required:
+    description: All AT&T API operations must have tags
+    message: tags array is required for all operations
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,options,head]
+    then:
+      field: tags
+      function: truthy
+
+  # Parameters
+  atandt-parameter-description-required:
+    description: All AT&T API parameters must have a description
+    message: description is required for all parameters
+    severity: warn
+    given: $.paths[*][*].parameters[*]
+    then:
+      field: description
+      function: truthy
+
+  atandt-path-parameter-required:
+    description: Path parameters must be marked as required
+    message: Path parameters must have required=true
+    severity: error
+    given: $.paths[*][*].parameters[?(@.in == 'path')]
+    then:
+      field: required
+      function: truthy
+
+  # Request Bodies
+  atandt-request-body-content-required:
+    description: AT&T API request bodies must define content
+    message: requestBody.content is required
+    severity: error
+    given: $.paths[*][*].requestBody
+    then:
+      field: content
+      function: truthy
+
+  atandt-request-body-json:
+    description: AT&T API request bodies should support application/json
+    message: requestBody should include application/json content type
+    severity: warn
+    given: $.paths[*][*].requestBody.content
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - application/json
+
+  # Responses
+  atandt-response-description-required:
+    description: All AT&T API responses must have a description
+    message: Response description is required
+    severity: error
+    given: $.paths[*][*].responses[*]
+    then:
+      field: description
+      function: truthy
+
+  atandt-success-response-required:
+    description: AT&T API operations must define at least one success response
+    message: At least one 2xx response is required
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            responses:
+              type: object
+          required:
+            - responses
+
+  atandt-error-400-defined:
+    description: AT&T POST/PUT/PATCH operations should define 400 response
+    message: 400 Bad Request response should be defined for mutating operations
+    severity: warn
+    given: $.paths[*][post,put,patch].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - '400'
+
+  atandt-error-401-defined:
+    description: AT&T API operations should define 401 response
+    message: 401 Unauthorized response should be defined for secured operations
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - '401'
+
+  # Schemas
+  atandt-schema-type-required:
+    description: AT&T API component schemas must have a type
+    message: Schema type is required
+    severity: warn
+    given: $.components.schemas[*]
+    then:
+      field: type
+      function: truthy
+
+  atandt-schema-description-required:
+    description: AT&T API component schemas must have a description
+    message: Schema description is required
+    severity: warn
+    given: $.components.schemas[*]
+    then:
+      field: description
+      function: truthy
+
+  # Security
+  atandt-security-schemes-required:
+    description: AT&T APIs must define security schemes
+    message: components.securitySchemes is required
+    severity: error
+    given: $.components
+    then:
+      field: securitySchemes
+      function: truthy
+
+  atandt-security-oauth2:
+    description: AT&T APIs should use OAuth 2.0
+    message: OAuth 2.0 security scheme should be defined
+    severity: warn
+    given: $.components.securitySchemes[*]
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values:
+          - oauth2
+
+  # Phone Number Format (CAMARA / AT&T specific)
+  atandt-phone-number-e164:
+    description: AT&T CAMARA APIs must use E.164 format for phone numbers
+    message: Phone number properties should use E.164 pattern
+    severity: warn
+    given: $.components.schemas[*].properties.phoneNumber
+    then:
+      field: pattern
+      function: truthy
+
+  # Tags
+  atandt-tags-defined:
+    description: AT&T APIs must define top-level tags
+    message: Top-level tags array is required
+    severity: warn
+    given: $
+    then:
+      field: tags
+      function: truthy

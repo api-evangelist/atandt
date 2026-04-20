@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/wireless/delivery-info",
+  "title": "Delivery Info",
+  "description": "SMS delivery status information",
+  "type": "object",
+  "properties": {
+    "address": {
+      "type": "string"
+    },
+    "deliveryStatus": {
+      "type": "string",
+      "enum": [
+        "DeliveredToTerminal",
+        "DeliveryImpossible",
+        "DeliveredToNetwork",
+        "MessageWaiting"
+      ]
+    }
+  }
+}

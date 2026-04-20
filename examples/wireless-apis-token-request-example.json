@@ -1,0 +1,8 @@
+{
+  "grant_type": "client_credentials",
+  "client_id": "example_client_id",
+  "client_secret": "example_client_secret",
+  "scope": "example_scope",
+  "code": "example_code",
+  "refresh_token": "example_refresh_token"
+}

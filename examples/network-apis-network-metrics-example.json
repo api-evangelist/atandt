@@ -1,0 +1,7 @@
+{
+  "networkGeneration": "5G",
+  "signalStrength": "EXCELLENT",
+  "estimatedDownlinkThroughput": 0.5,
+  "estimatedLatency": 1,
+  "congestionLevel": "LOW"
+}

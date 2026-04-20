@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/network/number-verification-request",
+  "title": "Number Verification Request",
+  "description": "Request to verify a device phone number",
+  "type": "object",
+  "required": [
+    "phoneNumber"
+  ],
+  "properties": {
+    "phoneNumber": {
+      "type": "string",
+      "pattern": "^\\+[1-9]\\d{1,14}$"
+    }
+  }
+}

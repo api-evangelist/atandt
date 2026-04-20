@@ -1,0 +1,99 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "AT&T Network Security"
+  description: "Workflow capability combining AT&T CAMARA network APIs for fraud prevention and identity verification. Integrates SIM Swap detection and Number Verification for developers building secure authentication flows."
+  tags:
+    - AT&T
+    - Security
+    - Fraud Prevention
+    - SIM Swap
+    - Number Verification
+    - CAMARA
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      ATT_NETWORK_API_TOKEN: ATT_NETWORK_API_TOKEN
+
+capability:
+  consumes:
+    - import: att-network-apis
+      location: ./shared/network-apis.yaml
+
+  exposes:
+    - type: rest
+      port: 8081
+      namespace: att-network-security-api
+      description: "Unified REST API for AT&T network security and fraud prevention."
+      resources:
+        - path: /v1/security/sim-swap/check
+          name: sim-swap-check
+          description: "SIM swap fraud detection"
+          operations:
+            - method: POST
+              name: check-sim-swap
+              description: "Check if SIM swap has occurred"
+              call: "att-network-apis.check-sim-swap"
+              with:
+                phoneNumber: "rest.phoneNumber"
+                maxAge: "rest.maxAge"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/security/number/verify
+          name: number-verify
+          description: "Silent phone number verification"
+          operations:
+            - method: POST
+              name: verify-number
+              description: "Verify device phone number silently"
+              call: "att-network-apis.verify-number"
+              with:
+                phoneNumber: "rest.phoneNumber"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9091
+      namespace: att-network-security-mcp
+      transport: http
+      description: "MCP server for AI-assisted AT&T network security and fraud prevention."
+      tools:
+        - name: att-check-sim-swap
+          description: "Check if a SIM swap has occurred for an AT&T phone number to detect fraud"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "att-network-apis.check-sim-swap"
+          with:
+            phoneNumber: "tools.phoneNumber"
+            maxAge: "tools.maxAge"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: att-retrieve-sim-swap-date
+          description: "Retrieve the most recent SIM swap date for an AT&T phone number"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "att-network-apis.retrieve-sim-swap-date"
+          with:
+            phoneNumber: "tools.phoneNumber"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: att-verify-phone-number
+          description: "Silently verify that a device is using a specific AT&T phone number without OTP"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "att-network-apis.verify-number"
+          with:
+            phoneNumber: "tools.phoneNumber"
+          outputParameters:
+            - type: object
+              mapping: "$."

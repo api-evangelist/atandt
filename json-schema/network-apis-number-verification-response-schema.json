@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/network/number-verification-response",
+  "title": "Number Verification Response",
+  "description": "Result of phone number verification",
+  "type": "object",
+  "properties": {
+    "devicePhoneNumberVerified": {
+      "type": "boolean"
+    }
+  }
+}

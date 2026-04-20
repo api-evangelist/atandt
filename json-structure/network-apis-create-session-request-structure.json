@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/network/create-session-request",
+  "title": "Create QoD Session Request",
+  "description": "Request to create a Quality on Demand session",
+  "type": "object",
+  "properties": {
+    "phoneNumber": {
+      "type": "string"
+    },
+    "qosProfile": {
+      "type": "string",
+      "enum": [
+        "LOW_LATENCY",
+        "THROUGHPUT_S",
+        "THROUGHPUT_M",
+        "THROUGHPUT_L",
+        "VOICE"
+      ]
+    },
+    "duration": {
+      "type": "integer"
+    }
+  }
+}

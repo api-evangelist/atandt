@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.att.com/schemas/wireless/token-response",
+  "title": "Token Response",
+  "description": "OAuth 2.0 token response from AT&T",
+  "type": "object",
+  "properties": {
+    "access_token": {
+      "type": "string"
+    },
+    "token_type": {
+      "type": "string",
+      "enum": [
+        "bearer"
+      ]
+    },
+    "expires_in": {
+      "type": "integer"
+    },
+    "refresh_token": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    }
+  }
+}

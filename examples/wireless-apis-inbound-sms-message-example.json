@@ -1,0 +1,7 @@
+{
+  "messageId": "example_messageId",
+  "message": "example_message",
+  "senderAddress": "example_senderAddress",
+  "destinationAddress": "example_destinationAddress",
+  "dateTime": "2026-04-19T10:00:00Z"
+}

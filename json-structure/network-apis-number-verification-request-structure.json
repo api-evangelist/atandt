@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/network/number-verification-request",
+  "title": "Number Verification Request",
+  "description": "Request to verify a device phone number",
+  "type": "object",
+  "properties": {
+    "phoneNumber": {
+      "type": "string"
+    }
+  }
+}

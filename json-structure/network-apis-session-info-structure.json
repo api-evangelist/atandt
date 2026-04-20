@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/network/session-info",
+  "title": "QoD Session Info",
+  "description": "Quality on Demand session details and status",
+  "type": "object",
+  "properties": {
+    "sessionId": {
+      "type": "string"
+    },
+    "qosProfile": {
+      "type": "string",
+      "enum": [
+        "LOW_LATENCY",
+        "THROUGHPUT_S",
+        "THROUGHPUT_M",
+        "THROUGHPUT_L",
+        "VOICE"
+      ]
+    },
+    "qosStatus": {
+      "type": "string",
+      "enum": [
+        "REQUESTED",
+        "AVAILABLE",
+        "UNAVAILABLE"
+      ]
+    },
+    "expiresAt": {
+      "type": "string"
+    }
+  }
+}

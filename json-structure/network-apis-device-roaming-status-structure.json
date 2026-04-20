@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://api.att.com/schemas/network/device-roaming-status",
+  "title": "Device Roaming Status",
+  "description": "Roaming status and location information for a device",
+  "type": "object",
+  "properties": {
+    "roaming": {
+      "type": "boolean"
+    },
+    "countryCode": {
+      "type": "string"
+    },
+    "countryName": {
+      "type": "string"
+    }
+  }
+}
