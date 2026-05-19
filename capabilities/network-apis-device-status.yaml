@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AT&T 5G Network APIs — Device Status
+  description: 'AT&T 5G Network APIs — Device Status. 2 operations. Lead operation: Get AT&T Device Connectivity Status. Self-contained
+    Naftiko capability covering one Atandt business surface.'
+  tags:
+  - Atandt
+  - Device Status
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ATANDT_API_KEY: ATANDT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: network-apis-device-status
+    baseUri: https://api.att.com/camara
+    description: AT&T 5G Network APIs — Device Status business capability. Self-contained, no shared references.
+    resources:
+    - name: device-status-v1-connectivity
+      path: /device-status/v1/connectivity
+      operations:
+      - name: getdeviceconnectivitystatus
+        method: POST
+        description: Get AT&T Device Connectivity Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: device-status-v1-roaming
+      path: /device-status/v1/roaming
+      operations:
+      - name: getdeviceroamingstatus
+        method: POST
+        description: Get AT&T Device Roaming Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ATANDT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: network-apis-device-status-rest
+    port: 8080
+    description: REST adapter for AT&T 5G Network APIs — Device Status. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/device-status/v1/connectivity
+      name: device-status-v1-connectivity
+      description: REST surface for device-status-v1-connectivity.
+      operations:
+      - method: POST
+        name: getdeviceconnectivitystatus
+        description: Get AT&T Device Connectivity Status
+        call: network-apis-device-status.getdeviceconnectivitystatus
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/device-status/v1/roaming
+      name: device-status-v1-roaming
+      description: REST surface for device-status-v1-roaming.
+      operations:
+      - method: POST
+        name: getdeviceroamingstatus
+        description: Get AT&T Device Roaming Status
+        call: network-apis-device-status.getdeviceroamingstatus
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: network-apis-device-status-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AT&T 5G Network APIs — Device Status. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-at-t-device-connectivity-status
+      description: Get AT&T Device Connectivity Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: network-apis-device-status.getdeviceconnectivitystatus
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-at-t-device-roaming-status
+      description: Get AT&T Device Roaming Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: network-apis-device-status.getdeviceroamingstatus
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

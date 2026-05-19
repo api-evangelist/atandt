@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AT&T Enterprise Connectivity APIs — Service Qualification
+  description: 'AT&T Enterprise Connectivity APIs — Service Qualification. 1 operations. Lead operation: Check AT&T Service
+    Qualification. Self-contained Naftiko capability covering one Atandt business surface.'
+  tags:
+  - Atandt
+  - Service Qualification
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ATANDT_API_KEY: ATANDT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: enterprise-connectivity-apis-service-qualification
+    baseUri: https://devex-web.att.com
+    description: AT&T Enterprise Connectivity APIs — Service Qualification business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: alliance-serviceQualification-v1-check
+      path: /alliance/serviceQualification/v1/check
+      operations:
+      - name: checkservicequalification
+        method: POST
+        description: Check AT&T Service Qualification
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ATANDT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: enterprise-connectivity-apis-service-qualification-rest
+    port: 8080
+    description: REST adapter for AT&T Enterprise Connectivity APIs — Service Qualification. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/alliance/servicequalification/v1/check
+      name: alliance-servicequalification-v1-check
+      description: REST surface for alliance-serviceQualification-v1-check.
+      operations:
+      - method: POST
+        name: checkservicequalification
+        description: Check AT&T Service Qualification
+        call: enterprise-connectivity-apis-service-qualification.checkservicequalification
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: enterprise-connectivity-apis-service-qualification-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AT&T Enterprise Connectivity APIs — Service Qualification. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: check-at-t-service-qualification
+      description: Check AT&T Service Qualification
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: enterprise-connectivity-apis-service-qualification.checkservicequalification
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

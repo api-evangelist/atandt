@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AT&T 5G Network APIs — Threat Detection
+  description: 'AT&T 5G Network APIs — Threat Detection. 1 operations. Lead operation: Get AT&T Mobility Threat Assessment.
+    Self-contained Naftiko capability covering one Atandt business surface.'
+  tags:
+  - Atandt
+  - Threat Detection
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ATANDT_API_KEY: ATANDT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: network-apis-threat-detection
+    baseUri: https://api.att.com/camara
+    description: AT&T 5G Network APIs — Threat Detection business capability. Self-contained, no shared references.
+    resources:
+    - name: network-threat-detection-v1-threats
+      path: /network/threat-detection/v1/threats
+      operations:
+      - name: getthreatassessment
+        method: POST
+        description: Get AT&T Mobility Threat Assessment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ATANDT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: network-apis-threat-detection-rest
+    port: 8080
+    description: REST adapter for AT&T 5G Network APIs — Threat Detection. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/network/threat-detection/v1/threats
+      name: network-threat-detection-v1-threats
+      description: REST surface for network-threat-detection-v1-threats.
+      operations:
+      - method: POST
+        name: getthreatassessment
+        description: Get AT&T Mobility Threat Assessment
+        call: network-apis-threat-detection.getthreatassessment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: network-apis-threat-detection-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AT&T 5G Network APIs — Threat Detection. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-at-t-mobility-threat-assessment
+      description: Get AT&T Mobility Threat Assessment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: network-apis-threat-detection.getthreatassessment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

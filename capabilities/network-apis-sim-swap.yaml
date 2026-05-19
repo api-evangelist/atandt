@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AT&T 5G Network APIs — SIM Swap
+  description: 'AT&T 5G Network APIs — SIM Swap. 2 operations. Lead operation: Check AT&T SIM Swap Status. Self-contained
+    Naftiko capability covering one Atandt business surface.'
+  tags:
+  - Atandt
+  - SIM Swap
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ATANDT_API_KEY: ATANDT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: network-apis-sim-swap
+    baseUri: https://api.att.com/camara
+    description: AT&T 5G Network APIs — SIM Swap business capability. Self-contained, no shared references.
+    resources:
+    - name: sim-swap-v1-check
+      path: /sim-swap/v1/check
+      operations:
+      - name: checksimswap
+        method: POST
+        description: Check AT&T SIM Swap Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: sim-swap-v1-retrieve-date
+      path: /sim-swap/v1/retrieve-date
+      operations:
+      - name: retrievesimswapdate
+        method: POST
+        description: Retrieve AT&T SIM Swap Date
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.ATANDT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: network-apis-sim-swap-rest
+    port: 8080
+    description: REST adapter for AT&T 5G Network APIs — SIM Swap. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sim-swap/v1/check
+      name: sim-swap-v1-check
+      description: REST surface for sim-swap-v1-check.
+      operations:
+      - method: POST
+        name: checksimswap
+        description: Check AT&T SIM Swap Status
+        call: network-apis-sim-swap.checksimswap
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sim-swap/v1/retrieve-date
+      name: sim-swap-v1-retrieve-date
+      description: REST surface for sim-swap-v1-retrieve-date.
+      operations:
+      - method: POST
+        name: retrievesimswapdate
+        description: Retrieve AT&T SIM Swap Date
+        call: network-apis-sim-swap.retrievesimswapdate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: network-apis-sim-swap-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AT&T 5G Network APIs — SIM Swap. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: check-at-t-sim-swap-status
+      description: Check AT&T SIM Swap Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: network-apis-sim-swap.checksimswap
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-at-t-sim-swap-date
+      description: Retrieve AT&T SIM Swap Date
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: network-apis-sim-swap.retrievesimswapdate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
