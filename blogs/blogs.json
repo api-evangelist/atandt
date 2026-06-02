@@ -2,13 +2,10 @@
   "repo": "atandt",
   "feeds": [
     {
-      "source": "https://about.att.com/blogs",
-      "feed_url": "",
-      "title": "",
-      "saved": 0,
-      "error": "no_feed"
+      "source": "https://www.att.com/gen/privacy-policy?pid=2506",
+      "error": "HTTPError"
     }
   ],
-  "fetched": "2026-05-17T20:48:52Z",
+  "fetched": "2026-06-01T23:35:02Z",
   "post_count": 0
 }
