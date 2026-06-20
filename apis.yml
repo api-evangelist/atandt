@@ -5,7 +5,7 @@ description: AT&T Inc. is a multinational telecommunications conglomerate provid
   networks in the United States and globally. This profile covers AT&T's full API ecosystem including consumer telecommunications
   APIs, enterprise connectivity APIs, and business service management APIs available through AT&T's developer programs.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Fortune 100
 - Telecommunications
