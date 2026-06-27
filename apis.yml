@@ -8,14 +8,14 @@ type: Index
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Fortune 100
-- Telecommunications
-- Fortune 100
-- Wireless
-- Wireline
-- Broadband
-- Enterprise
-- 5G
-- Network
+  - Telecommunications
+  - Fortune 100
+  - Wireless
+  - Wireline
+  - Broadband
+  - Enterprise
+  - 5G
+  - Network
 url: https://raw.githubusercontent.com/api-evangelist/atandt/refs/heads/main/apis.yml
 created: '2026-03-23'
 modified: '2026-05-19'
@@ -66,17 +66,17 @@ apis:
     url: https://devex-web.att.com/developer-hub/docs/network-api-accelerator-program
   - type: OpenAPI
     url: openapi/atandt-network-apis.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/network-apis-device-status.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/network-apis-network-insights.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/network-apis-number-verification.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/network-apis-quality-on-demand.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/network-apis-sim-swap.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/network-apis-threat-detection.yaml
 - aid: atandt:att-enterprise-connectivity-apis
   name: AT&T Enterprise Connectivity APIs
@@ -98,11 +98,11 @@ apis:
     url: https://devex-web.att.com/order/docs/get-started-with-ordering-api
   - type: OpenAPI
     url: openapi/atandt-enterprise-connectivity-apis.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/enterprise-connectivity-apis-order-management.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/enterprise-connectivity-apis-product-ordering.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/enterprise-connectivity-apis-service-qualification.yaml
 - aid: atandt:att-mvno-apis
   name: AT&T MVNO APIs
