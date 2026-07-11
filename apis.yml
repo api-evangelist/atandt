@@ -152,6 +152,10 @@ apis:
   - type: Documentation
     url: https://devex-web.att.com/ebonding-common
 common:
+- type: DomainSecurity
+  url: security/atandt-domain-security.yml
+- type: Authentication
+  url: authentication/atandt-authentication.yml
 - type: OAuthScopes
   url: scopes/atandt-scopes.yml
 - type: SpectralRules
