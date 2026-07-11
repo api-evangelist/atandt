@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/atandt-enterprise-connectivity-apis.yaml, openapi/atandt-network-apis.yaml
+schemes:
+- name: oauth2
+  source: openapi/atandt-enterprise-connectivity-apis.yaml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://devex-web.att.com/oauth/token
+- name: oauth2
+  source: openapi/atandt-network-apis.yaml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.att.com/oauth/v4/token
+scopes:
+- scope: enterprise
+  description: Access AT&T enterprise connectivity APIs
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/atandt-enterprise-connectivity-apis.yaml
+- scope: network
+  description: Access AT&T network APIs
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/atandt-network-apis.yaml

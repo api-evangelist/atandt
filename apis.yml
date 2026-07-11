@@ -152,6 +152,8 @@ apis:
   - type: Documentation
     url: https://devex-web.att.com/ebonding-common
 common:
+- type: OAuthScopes
+  url: scopes/atandt-scopes.yml
 - type: SpectralRules
   url: rules/atandt-spectral-rules.yml
 - type: Vocabulary
