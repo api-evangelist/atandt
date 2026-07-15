@@ -152,6 +152,8 @@ apis:
   - type: Documentation
     url: https://devex-web.att.com/ebonding-common
 common:
+- type: AgenticAccess
+  url: agentic-access/atandt-agentic-access.yml
 - type: DomainSecurity
   url: security/atandt-domain-security.yml
 - type: Authentication
