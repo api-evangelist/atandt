@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: AT&T Enterprise Connectivity APIs Device Status Threat Detection API
+  description: Enterprise-grade APIs for AT&T wireline business services including service qualification, quoting, ordering, and provisioning. The Alliance API suite supports automated ordering of AVPN, IPBB, ATTPhone, ASE, and AT&T Internet Air for Business services.
+  version: 1.0.0
+  contact:
+    name: AT&T Alliance Developer Portal
+    url: https://devex-web.att.com/alliance
+  termsOfService: https://www.att.com/gen/general?pid=11561
+servers:
+- url: https://devex-web.att.com
+  description: AT&T Enterprise API Server
+security:
+- oauth2: []
+tags:
+- name: Threat Detection
+  description: Mobility threat and anomaly detection
+paths:
+  /network/threat-detection/v1/threats:
+    post:
+      operationId: getThreatAssessment
+      summary: Get AT&T Mobility Threat Assessment
+      description: Retrieve ML-based threat assessment for a device including risk level, anomaly score, and detected threat types.
+      tags:
+      - Threat Detection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceStatusRequest'
+            examples:
+              assess:
+                summary: Assess Device Threats
+                value:
+                  phoneNumber: '+12125551234'
+      responses:
+        '200':
+          description: Threat assessment retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreatAssessment'
+              examples:
+                lowRisk:
+                  summary: Low Risk Device
+                  value:
+                    riskLevel: LOW
+                    anomalyScore: 0.05
+                    threats: []
+                highRisk:
+                  summary: High Risk Device
+                  value:
+                    riskLevel: HIGH
+                    anomalyScore: 0.87
+                    threats:
+                    - UNUSUAL_LOCATION
+                    - SIM_CLONING
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ThreatAssessment:
+      type: object
+      properties:
+        riskLevel:
+          type: string
+          enum:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - CRITICAL
+          description: Overall risk level for the device
+        anomalyScore:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: ML-generated anomaly score between 0 and 1
+        threats:
+          type: array
+          items:
+            type: string
+            enum:
+            - UNUSUAL_LOCATION
+            - ABNORMAL_DATA_USAGE
+            - KNOWN_MALWARE_TRAFFIC
+            - SIM_CLONING
+            - ROAMING_ANOMALY
+            - CALL_PATTERN_ANOMALY
+          description: List of detected threat types
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        code:
+          type: string
+          description: CAMARA error code
+        message:
+          type: string
+          description: Error description
+    DeviceStatusRequest:
+      type: object
+      required:
+      - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
+          description: E.164 format phone number
+          pattern: ^\+[1-9]\d{1,14}$
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://devex-web.att.com/oauth/token
+          scopes:
+            enterprise: Access AT&T enterprise connectivity APIs

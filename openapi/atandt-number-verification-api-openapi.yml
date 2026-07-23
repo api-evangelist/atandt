@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: AT&T Enterprise Connectivity APIs Device Status Number Verification API
+  description: Enterprise-grade APIs for AT&T wireline business services including service qualification, quoting, ordering, and provisioning. The Alliance API suite supports automated ordering of AVPN, IPBB, ATTPhone, ASE, and AT&T Internet Air for Business services.
+  version: 1.0.0
+  contact:
+    name: AT&T Alliance Developer Portal
+    url: https://devex-web.att.com/alliance
+  termsOfService: https://www.att.com/gen/general?pid=11561
+servers:
+- url: https://devex-web.att.com
+  description: AT&T Enterprise API Server
+security:
+- oauth2: []
+tags:
+- name: Number Verification
+  description: Silent phone number verification
+paths:
+  /number-verification/v1/verify:
+    post:
+      operationId: verifyPhoneNumber
+      summary: Verify AT&T Phone Number
+      description: Silently verify that a device is using a specific phone number via the AT&T network signal, without requiring user OTP entry.
+      tags:
+      - Number Verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberVerificationRequest'
+            examples:
+              verify:
+                summary: Verify Phone Number
+                value:
+                  phoneNumber: '+12125551234'
+      responses:
+        '200':
+          description: Phone number verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberVerificationResponse'
+              examples:
+                verified:
+                  summary: Phone Number Verified
+                  value:
+                    devicePhoneNumberVerified: true
+                notVerified:
+                  summary: Phone Number Not Verified
+                  value:
+                    devicePhoneNumberVerified: false
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        code:
+          type: string
+          description: CAMARA error code
+        message:
+          type: string
+          description: Error description
+    NumberVerificationResponse:
+      type: object
+      properties:
+        devicePhoneNumberVerified:
+          type: boolean
+          description: Whether the device is using the specified phone number
+    NumberVerificationRequest:
+      type: object
+      required:
+      - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
+          description: E.164 format phone number to verify
+          pattern: ^\+[1-9]\d{1,14}$
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://devex-web.att.com/oauth/token
+          scopes:
+            enterprise: Access AT&T enterprise connectivity APIs
